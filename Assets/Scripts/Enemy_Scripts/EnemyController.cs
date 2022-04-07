@@ -2,35 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : MonoBehaviour
+public class EnemyController : LivingEntity
 {
+
+    [Header("Enemy Controller properties")]
     [SerializeField] EnemyMovement enemyMovement;
     [SerializeField] Animator enemyAnim;
     [SerializeField] Transform target;
     [SerializeField] WeaponController weaponController;
-    [SerializeField] DamageableArea damageable;
 
+    [Header("Enemy Controller Parameters")]
     [SerializeField] float chasingDistance;
     [SerializeField] float maxShootingDistance;
     [SerializeField] float minShootingDistance;
     [SerializeField] float onTryChaseDuration;
-    [SerializeField] int startingHealth;
 
     private EnemyStates currentStatus = EnemyStates.Idle;
 
     float chasingTimer = 0;
     float distanceToTarget = 0;
 
-    private float currentHealth = 100;
-
     //Idle
     //Chasing //Player in View
     //Chasing and Shooting  //Close enough to Shoot
     //Shooting              //Even Closer 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         enemyMovement.SetTarget(target);
+    }
+
+    public override void Death()
+    {
+        Destroy(this.transform.parent.gameObject);
     }
 
     private void Update()
@@ -131,15 +136,7 @@ public class EnemyController : MonoBehaviour
         weaponController.Shoot();
     }
 
-    private void OnDamage(int amount)
-    {
-        currentHealth -= amount;
-        if(currentHealth <= 0)
-        {
-            currentHealth = 0;
-            //do sum
-        }
-    }
+
 
 #if UNITY_EDITOR
 
@@ -158,6 +155,8 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, minShootingDistance);
     }
+
+
 
 #endif
 }

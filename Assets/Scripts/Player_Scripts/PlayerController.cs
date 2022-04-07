@@ -2,25 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : LivingEntity
 {
+    [Header("Player Controller properties")]
     [SerializeField] InputController inputController;
     [SerializeField] CharacterMovement characterMovement;
     [SerializeField] Animator animator;
     [SerializeField] WeaponController weapon;
-    [SerializeField] DamageableArea damageable;
-
     [SerializeField] Camera cam;
 
-    [SerializeField] int startingHealth;
 
     private Vector3 aimDir;
     private Vector3 walkingDir;
-    private int currentHealth;
 
-    private void Awake()
+
+    public override void Death()
     {
-        currentHealth = startingHealth;
+        //sum
     }
 
     private void Update()
@@ -37,14 +35,15 @@ public class PlayerController : MonoBehaviour
             aimDir =  (hitPos - currentPos).normalized;
             characterMovement.Aim(aimDir);
         }
-        if (inputController.IsShooting)
+        bool shouldShoot = inputController.IsShooting && weapon.HasWeapon;
+        if (inputController.IsShooting && weapon.HasWeapon)
         {
             weapon.Shoot();
         }
         characterMovement.Move(inputController.MovementVector);
 
         animator.SetBool("isRunning", inputController.MovementVector.magnitude > 0.5f);
-        animator.SetBool("isShooting", inputController.IsShooting);
+        animator.SetBool("isShooting", shouldShoot);
 
         walkingDir = inputController.MovementVector.magnitude > 0.5f ? inputController.MovementVector : walkingDir;
 
@@ -52,16 +51,20 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("RunningSpeed", dir / Mathf.Abs(dir));
     }
 
-
-    private void OnDamage(int amount)
+    public bool CheckIfItem(out IItem item)
     {
-        currentHealth -= amount;
-
-        if(currentHealth <= 0)
+        Collider[] colliders  = Physics.OverlapSphere(transform.position, 2f);
+        for (int i = 0; i < colliders.Length; i++)
         {
-            startingHealth = 0;
-            //Dead or something idk
+            IItem colItem = colliders[i].GetComponent<IItem>();
+            if(colItem != null)
+            {
+                item = colItem;
+                return true;
+            }
         }
+        item = null;
+        return false;
     }
 
 #if UNITY_EDITOR
@@ -72,5 +75,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + walkingDir * 2);
     }
+
 #endif
 }

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 832216397210655271}
   - component: {fileID: 832216397210655270}
+  - component: {fileID: 1949269269}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832216397210655268}
-  m_LocalRotation: {x: -0.000000007450579, y: 0.000000089406946, z: -0.000000111409435, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletsPerSecond: 3
   bulletSpeed: 20
+  itemInfo: {fileID: 11400000, guid: 842910abd5c5de8438f1c9e21249602f, type: 2}
+--- !u!65 &1949269269
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832216397210655268}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &832216396828580949
 PrefabInstance:
   m_ObjectHideFlags: 0

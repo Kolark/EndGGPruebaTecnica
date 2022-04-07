@@ -8,6 +8,8 @@ public class WeaponController : MonoBehaviour
     [SerializeField] WeaponPosition weaponPositioner;
     [SerializeField] GameObject currentWeapon;
 
+    public bool HasWeapon => currentWeapon != null;
+
     private float timer = 0;
     private IWeapon weapon;
     private void Awake()
@@ -46,7 +48,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if(currentWeapon != null)
+        if(HasWeapon)
         {
             weaponPositioner.SetWeaponPosition();
         }

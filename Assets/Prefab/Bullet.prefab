@@ -134,6 +134,7 @@ MonoBehaviour:
   rigidbody: {fileID: 8643913322999383744}
   trigger: {fileID: 8643913323373551134}
   col: {fileID: 8643913322999383750}
+  damage: 10
 --- !u!135 &8643913322999383750
 SphereCollider:
   m_ObjectHideFlags: 0
