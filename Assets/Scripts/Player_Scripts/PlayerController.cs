@@ -8,13 +8,66 @@ public class PlayerController : LivingEntity
     [SerializeField] InputController inputController;
     [SerializeField] CharacterMovement characterMovement;
     [SerializeField] Animator animator;
-    [SerializeField] WeaponController weapon;
+    [SerializeField] WeaponController weaponController;
     [SerializeField] Camera cam;
+    [SerializeField] Inventory inventory;
 
+    //[SerializeField] GameObject[] weaponsObj;
 
+    public WeaponController WeaponController => weaponController;
+    public Inventory Inventory => inventory;
+
+    IItem[] weaponSlotItem;
     private Vector3 aimDir;
     private Vector3 walkingDir;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        inventory.INIT(this);
+    }
+
+    private void Start()
+    {
+        WeaponsSetup();
+    }
+
+    private void WeaponsSetup()
+    {
+        for (int i = 0; i < inventory.InventoryObjects.Length; i++)
+        {
+            if(inventory.InventoryObjects[i].InventoryItemType == InventoryItemType.WeaponItem
+                && inventory.InventoryObjects[i].gameObject != null)
+            {
+                inventory.InventoryObjects[i].item.UseItem();
+                break;
+            }
+        }
+    }
+
+
+
+    public bool CheckItemInFront<T>(LayerMask layer,out T component)
+    {
+        Debug.Log("CheckItem");
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f,layer);
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Debug.Log($"{colliders[i].gameObject.name} found");
+        }
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            T comp = colliders[i].GetComponent<T>();
+            if(comp != null)
+            {
+                component = comp;
+                return true;
+            }
+        }
+        component = default;
+        return false;
+    }
 
     public override void Death()
     {
@@ -35,10 +88,10 @@ public class PlayerController : LivingEntity
             aimDir =  (hitPos - currentPos).normalized;
             characterMovement.Aim(aimDir);
         }
-        bool shouldShoot = inputController.IsShooting && weapon.HasWeapon;
-        if (inputController.IsShooting && weapon.HasWeapon)
+        bool shouldShoot = inputController.IsShooting && weaponController.HasWeapon;
+        if (inputController.IsShooting && weaponController.HasWeapon)
         {
-            weapon.Shoot();
+            weaponController.Shoot();
         }
         characterMovement.Move(inputController.MovementVector);
 
@@ -51,21 +104,6 @@ public class PlayerController : LivingEntity
         animator.SetFloat("RunningSpeed", dir / Mathf.Abs(dir));
     }
 
-    public bool CheckIfItem(out IItem item)
-    {
-        Collider[] colliders  = Physics.OverlapSphere(transform.position, 2f);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            IItem colItem = colliders[i].GetComponent<IItem>();
-            if(colItem != null)
-            {
-                item = colItem;
-                return true;
-            }
-        }
-        item = null;
-        return false;
-    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

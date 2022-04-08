@@ -19,7 +19,7 @@ public class RoofInteraction : MonoBehaviour
     }
 
     public void ShowRoof(Collider col)
-    {
+    {   
         DOTween.To(() => currentColor, x => currentColor = x, showColor, duration).OnUpdate(SetColor);
     }
 

@@ -6,39 +6,39 @@ public class WeaponController : MonoBehaviour
 {
 
     [SerializeField] WeaponPosition weaponPositioner;
-    [SerializeField] GameObject currentWeapon;
+    private GameObject currentWeapon;
 
     public bool HasWeapon => currentWeapon != null;
 
     private float timer = 0;
     private IWeapon weapon;
-    private void Awake()
-    {
-        if(currentWeapon != null)
-        {
-            weapon = currentWeapon.GetComponent<IWeapon>();
-            SetWeapon(currentWeapon);
-        }
-    }
 
     public void SetWeapon(GameObject weapon)
     {
+        if(currentWeapon != null)
+        {
+            ClearWeapon();
+        }
         currentWeapon = weapon;
-
         this.weapon = currentWeapon.GetComponent<IWeapon>();
         this.weapon.SetReferencePoint(weaponPositioner.BulletPosition);
-
-        if(weapon == null)
+        this.weapon.Activate();
+        if(this.weapon == null)
         {
             Debug.LogError("Weapon GameObject does not implement IWeapon Interface");
         }
         weaponPositioner.SetWeapon(currentWeapon.transform);
     }
 
+    private void ClearWeapon()
+    {
+        weaponPositioner.ReturnWeaponToHolder(currentWeapon.transform);
+        weapon.Deactivate();
+    }
 
     public void Shoot()
     {
-        timer += Time.deltaTime;
+
         if(timer > weapon.Frequency)
         {
             weapon.Shoot();
@@ -48,8 +48,10 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if(HasWeapon)
+
+        if (HasWeapon)
         {
+            timer += Time.deltaTime;
             weaponPositioner.SetWeaponPosition();
         }
     }

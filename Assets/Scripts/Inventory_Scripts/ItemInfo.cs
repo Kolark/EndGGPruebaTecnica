@@ -6,5 +6,4 @@ using UnityEngine;
 public class ItemInfo : ScriptableObject
 {
     public Sprite slotSprite;
-    public ItemType itemType;
 }

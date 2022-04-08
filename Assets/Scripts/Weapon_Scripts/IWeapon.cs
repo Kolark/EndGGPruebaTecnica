@@ -7,4 +7,7 @@ public interface IWeapon
     float Frequency { get; }
     void SetReferencePoint(Transform transform);
     void Shoot();
+    void Activate();
+    void Deactivate();
 }
+

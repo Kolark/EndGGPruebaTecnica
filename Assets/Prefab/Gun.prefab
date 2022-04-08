@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 832216397210655271}
   - component: {fileID: 832216397210655270}
-  - component: {fileID: 1949269269}
-  m_Layer: 0
+  - component: {fileID: 8572408067146985386}
+  m_Layer: 13
   m_Name: Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,21 +46,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 122a0bcb8a8d4134186e7b6625cd2038, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemType: 1
   bulletsPerSecond: 3
   bulletSpeed: 20
+  mesh: {fileID: 2039345333063614673}
   itemInfo: {fileID: 11400000, guid: 842910abd5c5de8438f1c9e21249602f, type: 2}
---- !u!65 &1949269269
-BoxCollider:
+--- !u!135 &8572408067146985386
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 832216397210655268}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Radius: 0.74
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &832216396828580949
 PrefabInstance:
@@ -121,10 +123,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon_SCAR
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c5d060367048aa498dddfbb95cc04df, type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 9c5d060367048aa498dddfbb95cc04df, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9c5d060367048aa498dddfbb95cc04df, type: 3}
 --- !u!4 &866407578505345982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9c5d060367048aa498dddfbb95cc04df, type: 3}
+  m_PrefabInstance: {fileID: 832216396828580949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &2039345333063614673 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 9c5d060367048aa498dddfbb95cc04df, type: 3}
   m_PrefabInstance: {fileID: 832216396828580949}
   m_PrefabAsset: {fileID: 0}

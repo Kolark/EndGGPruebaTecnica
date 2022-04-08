@@ -8,20 +8,17 @@ public class InventorySlot
     [SerializeField] UIInventorySlot uiInventorySlot;
     [SerializeField] KeyCode key;
     [SerializeField] bool focusOnPressed;
-    [SerializeField] ItemType itemType;
 
-    public ItemType ItemType => itemType;
     public Action onPressed;
 
     public void INIT()
     {
-
+        uiInventorySlot.Button.onClick.AddListener(Pressed);
     }
 
     public void SetInventorySlot(ItemInfo itemInfo)
     {
         uiInventorySlot.Img.sprite = itemInfo.slotSprite;
-        itemType = itemInfo.itemType;
     }
     
     public void ClearInventorySlot()
@@ -34,7 +31,12 @@ public class InventorySlot
     {
         if (Input.GetKeyDown(key))
         {
-            onPressed?.Invoke();
+            Pressed();
         }
+    }
+
+    private void Pressed()
+    {
+        onPressed?.Invoke();
     }
 }

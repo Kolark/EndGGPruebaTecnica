@@ -1,13 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class InventorySlotManager : MonoBehaviour
 {
     [SerializeField] InventorySlot[] slots;
 
+    private static InventorySlotManager instance;
+    public static InventorySlotManager Instance => instance;
+
     private void Awake()
     {
+        if(instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].INIT();
@@ -22,21 +32,24 @@ public class InventorySlotManager : MonoBehaviour
         }
     }
 
-    public void AddInventoryItemToSlot(InventorySlots slot,ItemInfo itemInfo)
+    public void SetInventoryItemToSlot(int slot,ItemInfo itemInfo)
     {
-        slots[(int)slot].SetInventorySlot(itemInfo);
+        slots[slot].SetInventorySlot(itemInfo);
     }
     
-    public void RemoveInventoryItemFromSlot(InventorySlots slot)
+    public void RemoveInventoryItemFromSlot(int slot)
     {
-        slots[(int)slot].ClearInventorySlot();
+        slots[slot].ClearInventorySlot();
     }
 
-}
+    public void AddListenerToSlot(int slot, Action onPressed)
+    {
+        slots[slot].onPressed += onPressed;
+    }
 
-public enum InventorySlots
-{
-    Weapon1,
-    Weapon2,
-    Key
+    public void ClearSlotListener(int slot, Action onPressed)
+    {
+        slots[slot].onPressed -= onPressed;
+    }
+
 }
