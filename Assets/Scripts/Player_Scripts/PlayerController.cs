@@ -51,7 +51,7 @@ public class PlayerController : LivingEntity
     public bool CheckItemInFront<T>(LayerMask layer,out T component)
     {
         Debug.Log("CheckItem");
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f,layer);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1.5f,layer);
         for (int i = 0; i < colliders.Length; i++)
         {
             Debug.Log($"{colliders[i].gameObject.name} found");
@@ -112,6 +112,8 @@ public class PlayerController : LivingEntity
         Gizmos.DrawLine(transform.position, transform.position + aimDir * 4);
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + walkingDir * 2);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 1.5f);
     }
 
 #endif

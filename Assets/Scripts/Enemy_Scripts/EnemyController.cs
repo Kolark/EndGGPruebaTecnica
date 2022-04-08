@@ -17,6 +17,7 @@ public class EnemyController : LivingEntity
     [SerializeField] float minShootingDistance;
     [SerializeField] float onTryChaseDuration;
 
+    [SerializeField] GameObject weapon;
     private EnemyStates currentStatus = EnemyStates.Idle;
 
     float chasingTimer = 0;
@@ -31,6 +32,7 @@ public class EnemyController : LivingEntity
     {
         base.Awake();
         enemyMovement.SetTarget(target);
+        weaponController.SetWeapon(weapon);
     }
 
     public override void Death()

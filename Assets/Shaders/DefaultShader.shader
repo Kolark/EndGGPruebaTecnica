@@ -7,13 +7,16 @@ Shader "Custom/DefaultShader"
     }
     SubShader
     {
-		 Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
+		Tags {"Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent"}
         LOD 100
 
 		Blend SrcAlpha OneMinusSrcAlpha
 
         Pass
         {
+			//ZTest Greater
+			ZWrite On
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -58,5 +61,6 @@ Shader "Custom/DefaultShader"
             }
             ENDCG
         }
+
     }
 }

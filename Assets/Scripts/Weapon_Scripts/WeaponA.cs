@@ -12,11 +12,20 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
     [SerializeField] MeshRenderer mesh;
     [SerializeField] ItemInfo itemInfo;
 
+    private Collider col;
     private bool isActive = false;
     private Transform referencePoint;
 
     private bool isSaved = false;
     public float Frequency => 1 / bulletsPerSecond;
+    public Collider Col
+    {
+        get
+        {
+            if (col == null) { col = GetComponent<Collider>(); }
+            return col;
+        }
+    }
 
     private int usedSlot = -1;
     public int UsedSlot { get => usedSlot; set => usedSlot = value; }
@@ -63,6 +72,8 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
 
     public void GetItem(PlayerController playerController)
     {
+        Col.enabled = false;
+        Deactivate();
         setWeapon = playerController.WeaponController.SetWeapon;
     }
 

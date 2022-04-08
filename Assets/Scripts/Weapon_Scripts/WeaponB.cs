@@ -14,10 +14,18 @@ public class WeaponB : MonoBehaviour, IWeapon, IItem
     private bool isSaved = false;
     private Transform referencePoint;
 
+    private Collider col;
     private int usedSlot = -1;
     public int UsedSlot { get => usedSlot; set => usedSlot = value; }
 
-
+    public Collider Col
+    {
+        get
+        {
+            if (col == null) { col = GetComponent<Collider>(); }
+            return col;
+        }
+    }
     #region ISlotItem interface
 
     public bool IsSaved => isSaved;
@@ -78,6 +86,8 @@ public class WeaponB : MonoBehaviour, IWeapon, IItem
 
     public void GetItem(PlayerController playerController)
     {
+        Col.enabled = false;
+        Deactivate();
         setWeapon = playerController.WeaponController.SetWeapon;
     }
 

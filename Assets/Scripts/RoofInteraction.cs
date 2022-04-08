@@ -25,6 +25,7 @@ public class RoofInteraction : MonoBehaviour
 
     public void HideRoof(Collider col)
     {
+        Debug.Log($"Hiding roof: " + col.gameObject.name);
         DOTween.To(() => currentColor, x => currentColor = x, hideColor, duration).OnUpdate(SetColor);
     }
 
