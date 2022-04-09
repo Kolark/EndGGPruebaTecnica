@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using DG.Tweening;
+//Simple class acting as an accesor for some ui components. 
 public class UiController : MonoBehaviour
 {
     [SerializeField] LivingEntity livingEntity;
@@ -9,7 +10,7 @@ public class UiController : MonoBehaviour
 
     private void Awake()
     {
-        livingEntity.onDamage += UpdateHealth; 
+        livingEntity.onLifeChanged += UpdateHealth; 
     }
 
     private void Start()

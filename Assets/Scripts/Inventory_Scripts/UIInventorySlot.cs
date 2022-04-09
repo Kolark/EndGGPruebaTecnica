@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+//class attached to the UI components that represent the InventorySlot
 public class UIInventorySlot : MonoBehaviour
 {
     [SerializeField] Button button;
@@ -16,5 +17,10 @@ public class UIInventorySlot : MonoBehaviour
     {
         keyText.gameObject.SetActive(true);
         keyText.text = text;
+    }
+
+    public void DeActivateKeyText()
+    {
+        keyText.gameObject.SetActive(false);
     }
 }

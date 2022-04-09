@@ -2,26 +2,30 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class defining the Enemy's Behaviour
 public class EnemyController : LivingEntity
 {
-
+    
     [Header("Enemy Controller properties")]
     [SerializeField] EnemyMovement enemyMovement;
     [SerializeField] Animator enemyAnim;
     [SerializeField] Transform target;
     [SerializeField] WeaponController weaponController;
 
+    //Parameters upon which the enemy can define it's current state
     [Header("Enemy Controller Parameters")]
     [SerializeField] float chasingDistance;
     [SerializeField] float maxShootingDistance;
     [SerializeField] float minShootingDistance;
     [SerializeField] float onTryChaseDuration;
 
+    //Default weapon for the enemy
     [SerializeField] GameObject weapon;
+
     private EnemyStates currentStatus = EnemyStates.Idle;
 
-    float chasingTimer = 0;
-    float distanceToTarget = 0;
+    private float chasingTimer = 0;
+    private float distanceToTarget = 0;
 
     //Idle
     //Chasing //Player in View
@@ -31,6 +35,8 @@ public class EnemyController : LivingEntity
     protected override void Awake()
     {
         base.Awake();
+        
+        target = FindObjectOfType<PlayerController>().transform.parent;//only demo
         enemyMovement.SetTarget(target);
         weaponController.SetWeapon(weapon);
     }
@@ -126,6 +132,7 @@ public class EnemyController : LivingEntity
         currentStatus = isChasingAndShooting ? EnemyStates.Chasing_Shooting : EnemyStates.Shooting;
     }
     #endregion
+
     private void Chasing()
     {
         enemyMovement.Move();
@@ -163,6 +170,7 @@ public class EnemyController : LivingEntity
 #endif
 }
 
+//All possible enemyStates
 public enum EnemyStates
 {
     Idle,

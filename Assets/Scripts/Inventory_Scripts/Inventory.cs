@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class responsible of handling the player inventory
 public class Inventory : MonoBehaviour
 {
     [SerializeField] InventoryItem[] inventoryObjects;
@@ -28,10 +29,8 @@ public class Inventory : MonoBehaviour
     public void OnItemTriggerEnter(Collider col)
     {
         IItem item = col.GetComponent<IItem>();
-        Debug.Log(col.gameObject.name);
         if (item != null)
         {
-            Debug.Log("Got new item");
             TryGetItem(item); 
         }
     }
@@ -68,6 +67,7 @@ public class Inventory : MonoBehaviour
         triggerHelper.onTriggerEnter -= OnItemTriggerEnter;
     }
 
+#if UNITY_EDITOR
     private void OnValidate()
     {
         for (int i = 0; i < inventoryObjects.Length; i++)
@@ -75,7 +75,9 @@ public class Inventory : MonoBehaviour
             inventoryObjects[i].GetItem();
         }
     }
+#endif
 }
+//Class that tracks a single slot information
 [System.Serializable]
 public class InventoryItem
 {
@@ -123,7 +125,7 @@ public class InventoryItem
         return null;
     }
 }
-
+//Types of items to be saved in an inventory slot
 public enum InventoryItemType
 {
     None,

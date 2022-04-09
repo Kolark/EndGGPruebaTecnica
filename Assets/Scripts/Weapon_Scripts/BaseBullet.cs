@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-
+//Simple behaviour for a bullet that can be pooled
 public class BaseBullet : MonoBehaviour, IPooleable
 {
 

@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+//Helping class notifying when the current object collider has been triggeredEnter or triggeredExit
 [RequireComponent(typeof(Collider))]
 public class TriggerHelper : MonoBehaviour
 {

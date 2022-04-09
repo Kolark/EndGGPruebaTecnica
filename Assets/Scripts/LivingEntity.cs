@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+//Class that defines the living Behaviour upon which a player or an enemy can inherit from
 public abstract class LivingEntity : MonoBehaviour
 {
     [Header("Living Entity Properties")]
@@ -11,8 +12,8 @@ public abstract class LivingEntity : MonoBehaviour
     public float CurrentHealth => currentHealth;
     public float MaxHealth => startingHealth;
     private float currentHealth = 0;
-    public Action onDamage;
-
+    public Action onLifeChanged;
+    public Action onDeath;
 
     protected virtual void Awake()
     {
@@ -23,7 +24,7 @@ public abstract class LivingEntity : MonoBehaviour
     protected virtual void OnDamage(int amount)
     {
         currentHealth -= amount;
-        onDamage?.Invoke();
+        onLifeChanged?.Invoke();
         if (currentHealth <= 0)
         {
             currentHealth = 0;
@@ -32,6 +33,12 @@ public abstract class LivingEntity : MonoBehaviour
     }
 
     public abstract void Death();
+
+    protected void Revive()
+    {
+        currentHealth = 100;
+        onLifeChanged?.Invoke();
+    }
 
     protected virtual void OnDestroy()
     {

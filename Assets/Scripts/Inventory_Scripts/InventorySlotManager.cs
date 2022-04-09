@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+
+//Class Related exclusively to the UI part of the inventory
 public class InventorySlotManager : MonoBehaviour
 {
     [SerializeField] InventorySlot[] slots;

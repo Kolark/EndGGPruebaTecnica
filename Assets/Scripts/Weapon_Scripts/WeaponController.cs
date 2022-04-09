@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class related to the handling of an IWeapon object, 
+//allows access to the Weapon object itself and it's methods
 public class WeaponController : MonoBehaviour
 {
 

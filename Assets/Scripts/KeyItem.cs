@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
+//Class implementing the logic for the Key Item, 
 public class KeyItem : MonoBehaviour, IItem
 {
     [SerializeField] InventoryItemType itemType;
@@ -28,10 +29,26 @@ public class KeyItem : MonoBehaviour, IItem
     private CheckItem checkItem;
     private Action<int> clearItem;
 
+    Tween tweenAnim;
+    private void Start()
+    {
+        if (!isSaved)
+        {
+            tweenAnim = transform.DOLocalRotate(Vector3.up * 180, 2.0f).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+        }
+    }
+
     public void GetItem(PlayerController playerController)
     {
+
+                if (tweenAnim != null)
+        {
+            tweenAnim.Kill();
+        }
         checkItem = playerController.CheckItemInFront;
         clearItem = playerController.Inventory.RemoveItem;
+        GetComponent<AudioSource>().Play();
         isSaved = true;
         col.enabled = !isSaved;
         mesh.SetActive(!isSaved);

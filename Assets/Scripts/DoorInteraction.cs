@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+
+//Defines the behaviour of a door. Implements the IUnlocable interface
 public class DoorInteraction : MonoBehaviour, IUnlockable
 {
     [SerializeField] TriggerHelper openTrigger;
@@ -15,8 +17,11 @@ public class DoorInteraction : MonoBehaviour, IUnlockable
 
     public bool IsUnlocked => true;
 
+    AudioSource audioSource;
+
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         openTrigger.SetCollider(isUnlocked);
         unlockDoorCollider.enabled = !isUnlocked;
         openTrigger.onTriggerEnter += OpenDoor;
@@ -25,11 +30,13 @@ public class DoorInteraction : MonoBehaviour, IUnlockable
 
     public void OpenDoor(Collider collider)
     {
+        Debug.Log("Door opened " + collider.transform.name);
         door.DOLocalRotate(Vector3.up * openRotation, duration).SetEase(Ease.OutBounce);
     }
 
     public void CloseDoor(Collider collider)
     {
+        Debug.Log("Door closed" + collider.transform.name);
         door.DOLocalRotate(Vector3.up * closedRotation, duration).SetEase(Ease.OutBounce);
     }
     private void OnDestroy()
@@ -45,6 +52,7 @@ public class DoorInteraction : MonoBehaviour, IUnlockable
             isUnlocked = true;
             openTrigger.SetCollider(isUnlocked);
             unlockDoorCollider.enabled = !isUnlocked;
+            audioSource.Play();
             return true;
         }
         else return false;

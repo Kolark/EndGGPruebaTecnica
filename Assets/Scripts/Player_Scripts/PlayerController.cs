@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Class that defines the behaviour of the Player Controller
 public class PlayerController : LivingEntity
 {
     [Header("Player Controller properties")]
@@ -9,17 +10,21 @@ public class PlayerController : LivingEntity
     [SerializeField] CharacterMovement characterMovement;
     [SerializeField] Animator animator;
     [SerializeField] WeaponController weaponController;
-    [SerializeField] Camera cam;
+
     [SerializeField] Inventory inventory;
+    [SerializeField] AudioSource audioSource;
+
 
     //[SerializeField] GameObject[] weaponsObj;
 
+    public AudioSource AudioSource => audioSource;
     public WeaponController WeaponController => weaponController;
     public Inventory Inventory => inventory;
 
     IItem[] weaponSlotItem;
-    private Vector3 aimDir;
+
     private Vector3 walkingDir;
+    private Vector3 playerAimDir = Vector3.right;
 
     protected override void Awake()
     {
@@ -47,15 +52,13 @@ public class PlayerController : LivingEntity
     }
 
 
-
+    //Helping methods that can get a certain component if the object is to be found via
+    //the collision of an overlapping sphere
     public bool CheckItemInFront<T>(LayerMask layer,out T component)
     {
-        Debug.Log("CheckItem");
+
         Collider[] colliders = Physics.OverlapSphere(transform.position, 1.5f,layer);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            Debug.Log($"{colliders[i].gameObject.name} found");
-        }
+
         for (int i = 0; i < colliders.Length; i++)
         {
             T comp = colliders[i].GetComponent<T>();
@@ -71,36 +74,33 @@ public class PlayerController : LivingEntity
 
     public override void Death()
     {
-        //sum
+        onDeath?.Invoke();
+        //only demo
+        Revive();
     }
 
     private void Update()
     {
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            Vector3 hitPos = hit.point;
-            Vector3 currentPos = transform.position;
-            
-            //test.position = hitPos;
-            hitPos.y = 0;
-            currentPos.y = 0;
-            aimDir =  (hitPos - currentPos).normalized;
-            characterMovement.Aim(aimDir);
-        }
+        Vector3 movementVector = inputController.MovementVector;
+        Vector3 aimDir = inputController.AimDir;
+
+        characterMovement.Aim(aimDir);
+
         bool shouldShoot = inputController.IsShooting && weaponController.HasWeapon;
         if (inputController.IsShooting && weaponController.HasWeapon)
         {
             weaponController.Shoot();
         }
-        characterMovement.Move(inputController.MovementVector);
 
-        animator.SetBool("isRunning", inputController.MovementVector.magnitude > 0.5f);
+        characterMovement.Move(movementVector);
+
+        animator.SetBool("isRunning", movementVector.magnitude > 0.5f);
         animator.SetBool("isShooting", shouldShoot);
 
-        walkingDir = inputController.MovementVector.magnitude > 0.5f ? inputController.MovementVector : walkingDir;
+        walkingDir = movementVector.magnitude > 0.5f ? movementVector : walkingDir;
+        playerAimDir = aimDir.magnitude > 0.5f ? aimDir : playerAimDir;
 
-        float dir = Vector3.Dot(aimDir, walkingDir);
+        float dir = Vector3.Dot(playerAimDir, walkingDir);
         animator.SetFloat("RunningSpeed", dir / Mathf.Abs(dir));
     }
 
@@ -108,8 +108,8 @@ public class PlayerController : LivingEntity
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + aimDir * 4);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawLine(transform.position, transform.position + aimDir * 4);
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(transform.position, transform.position + walkingDir * 2);
         Gizmos.color = Color.green;

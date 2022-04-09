@@ -2,7 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
+//Weapon that implements both IWeapon and IItem interfaces
 public class WeaponB : MonoBehaviour, IWeapon, IItem
 {
     [SerializeField] InventoryItemType itemType;
@@ -10,13 +11,24 @@ public class WeaponB : MonoBehaviour, IWeapon, IItem
     [SerializeField] float bulletSpeed;
     [SerializeField] MeshRenderer mesh;
     [SerializeField] ItemInfo itemInfo;
+    [SerializeField] AudioClip gunSound;
 
-    private bool isSaved = false;
+
+    [SerializeField] private bool isSaved = false;
     private Transform referencePoint;
 
     private Collider col;
     private int usedSlot = -1;
     public int UsedSlot { get => usedSlot; set => usedSlot = value; }
+    Tween tweenAnim;
+    private void Start()
+    {
+        if (!isSaved)
+        {
+        tweenAnim = transform.DOLocalRotate(Vector3.up * 180, 2.0f).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+        }
+    }
 
     public Collider Col
     {
@@ -79,14 +91,23 @@ public class WeaponB : MonoBehaviour, IWeapon, IItem
 
             baseBullets[i].RB.AddForce(dir * bulletSpeed, ForceMode.Impulse);
         }
-
+        currentAudioSource?.PlayOneShot(gunSound);
     }
 
     private Action<GameObject> setWeapon;
 
+
+    [SerializeField] AudioSource currentAudioSource;
+
     public void GetItem(PlayerController playerController)
     {
+        if(tweenAnim != null)
+        {
+            tweenAnim.Kill();
+        }
+        isSaved = true;
         Col.enabled = false;
+        currentAudioSource = playerController.AudioSource;
         Deactivate();
         setWeapon = playerController.WeaponController.SetWeapon;
     }

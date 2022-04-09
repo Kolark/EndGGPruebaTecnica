@@ -134,6 +134,7 @@ MonoBehaviour:
   bulletSpeed: 20
   mesh: {fileID: 6626219998493959680}
   itemInfo: {fileID: 11400000, guid: 95e4568956ca12141a3b70d22d527244, type: 2}
+  gunSound: {fileID: 8300000, guid: 49b14bf1057fb9d4292cab2ebcc704fa, type: 3}
 --- !u!135 &7302862603923125851
 SphereCollider:
   m_ObjectHideFlags: 0

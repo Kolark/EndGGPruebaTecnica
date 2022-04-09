@@ -15,10 +15,9 @@ public class CharacterMovement : MonoBehaviour
     //Called Every frame
     public void Move(Vector3 movementVec)
     {
-        rigidbody.velocity = movementVec.normalized * Time.deltaTime * movementVelocity;
+        rigidbody.velocity = movementVec.normalized * movementVelocity;
     }
 
-    //
     public void Aim(Vector3 aim)
     {
         playerBody.LookAt(playerBody.position + aim);

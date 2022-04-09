@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 832216397210655270}
   - component: {fileID: 8572408067146985386}
   m_Layer: 13
-  m_Name: Gun
+  m_Name: WeaponA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,6 +51,7 @@ MonoBehaviour:
   bulletSpeed: 20
   mesh: {fileID: 2039345333063614673}
   itemInfo: {fileID: 11400000, guid: 842910abd5c5de8438f1c9e21249602f, type: 2}
+  gunSound: {fileID: 8300000, guid: 6df86b8e3783f4b44a43d0be3585a577, type: 3}
 --- !u!135 &8572408067146985386
 SphereCollider:
   m_ObjectHideFlags: 0

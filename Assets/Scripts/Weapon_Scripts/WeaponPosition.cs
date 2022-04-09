@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Helping class that helps to set the gun correctly acording to the characters hand position;
+//
 public class WeaponPosition : MonoBehaviour
 {
     [SerializeField] Transform gunHolder;

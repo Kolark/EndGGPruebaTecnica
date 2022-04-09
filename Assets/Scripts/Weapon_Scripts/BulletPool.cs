@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Defines the behaviour for a pool of a certain object type
 public class BulletPool : MonoBehaviour, IPool<BaseBullet>
 {
     [SerializeField] Transform spawnPosition;

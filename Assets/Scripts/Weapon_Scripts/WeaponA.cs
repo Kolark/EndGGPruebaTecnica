@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using System;
 
+//Weapon that implements both IWeapon and IItem interfaces
 public class WeaponA : MonoBehaviour, IWeapon,IItem
 {
     [SerializeField] InventoryItemType itemType;
@@ -11,12 +12,13 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
     [SerializeField] float bulletSpeed;
     [SerializeField] MeshRenderer mesh;
     [SerializeField] ItemInfo itemInfo;
+    [SerializeField] AudioClip gunSound;
 
     private Collider col;
     private bool isActive = false;
     private Transform referencePoint;
 
-    private bool isSaved = false;
+    [SerializeField] private bool isSaved = false;
     public float Frequency => 1 / bulletsPerSecond;
     public Collider Col
     {
@@ -30,6 +32,16 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
     private int usedSlot = -1;
     public int UsedSlot { get => usedSlot; set => usedSlot = value; }
 
+    Tween tweenAnim;
+    private void Start()
+    {
+        if (!isSaved)
+        {
+            tweenAnim = transform.DOLocalRotate(Vector3.up * 180, 2.0f).SetLoops(-1, LoopType.Incremental).SetEase(Ease.Linear);
+
+        }
+    }
+
     public void SetReferencePoint(Transform transform)
     {
         referencePoint = transform;
@@ -41,6 +53,7 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
         bullet.transform.position = referencePoint.position;
         bullet.transform.rotation = referencePoint.rotation;
         bullet.RB.AddForce(bullet.transform.forward * bulletSpeed, ForceMode.Impulse);
+        currentAudioSource?.PlayOneShot(gunSound);
     }
 
     public void Activate()
@@ -69,10 +82,17 @@ public class WeaponA : MonoBehaviour, IWeapon,IItem
     }
 
     private Action<GameObject> setWeapon;
+    [SerializeField] AudioSource currentAudioSource;
 
     public void GetItem(PlayerController playerController)
     {
+        if (tweenAnim != null)
+        {
+            tweenAnim.Kill();
+        }
         Col.enabled = false;
+        isSaved = true;
+        currentAudioSource = playerController.AudioSource;
         Deactivate();
         setWeapon = playerController.WeaponController.SetWeapon;
     }

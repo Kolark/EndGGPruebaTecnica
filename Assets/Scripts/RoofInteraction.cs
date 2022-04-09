@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+//Class defining the behaviour for a roof. When should or should not hide if the player is around
 public class RoofInteraction : MonoBehaviour
 {
     [SerializeField] TriggerHelper triggerHelper;
@@ -25,7 +26,6 @@ public class RoofInteraction : MonoBehaviour
 
     public void HideRoof(Collider col)
     {
-        Debug.Log($"Hiding roof: " + col.gameObject.name);
         DOTween.To(() => currentColor, x => currentColor = x, hideColor, duration).OnUpdate(SetColor);
     }
 
