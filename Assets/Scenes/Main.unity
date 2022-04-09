@@ -2355,7 +2355,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7777778, y: 1}
+    m_SensorSize: {x: 1.5556836, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4642,7 +4642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d68d1d6d1718d540840a7cc807b3ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  externalInput: {fileID: 1203375436}
+  externalInput: {fileID: 696372691}
 --- !u!114 &2038442392
 MonoBehaviour:
   m_ObjectHideFlags: 0
